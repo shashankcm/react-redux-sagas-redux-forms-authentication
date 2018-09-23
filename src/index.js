@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { applyMiddleware, createStore, compose } from 'redux';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
-import { Route, BrowserRouter as Router } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 
 
 
@@ -41,9 +41,11 @@ ReactDOM.render(
     <Provider store={store}>
         <Router>
             <App>
+                <Switch>
                 <Route path="/login" component={() => Login} />
-                <Route path="/signup" component={() => Signup} />
+                <Route path="/signup" component={Signup} />
                 <Route path="/widgets" component={() => Widgets} />
+                </Switch>
             </App>
         </Router>
     </Provider>,

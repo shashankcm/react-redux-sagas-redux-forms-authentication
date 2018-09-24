@@ -5,7 +5,10 @@ import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 
-
+import {  
+    checkIndexAuthorization,
+    checkWidgetAuthorization,
+  } from './lib/check-auth';
 
 import App from './App';
 import Login from './login';
@@ -36,15 +39,17 @@ const store = createStore(
 sagaMiddleware.run(IndexSagas)
 
 
-
 ReactDOM.render(
     <Provider store={store}>
         <Router>
             <App>
                 <Switch>
-                <Route path="/login" component={() => Login} />
-                <Route path="/signup" component={Signup} />
-                <Route path="/widgets" component={() => Widgets} />
+                    <Route exact onEnter={checkIndexAuthorization(store)} path="/" component={Login}/>
+                    <Route exact onEnter={checkIndexAuthorization(store)} path="/" component={Signup}/>
+                    <Route exact onEnter={checkIndexAuthorization(store)} path="/" component={Widgets}/>
+                    <Route onEnter={checkWidgetAuthorization(store)} path="/login" component={Login} />
+                    <Route onEnter={checkWidgetAuthorization(store)} path="/signup" component={Signup} />
+                    <Route onEnter={checkWidgetAuthorization(store)} path="/widgets" component={Widgets} />
                 </Switch>
             </App>
         </Router>
